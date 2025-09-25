@@ -10,3 +10,12 @@ export const createUserValidator = vine.compile(
     role: vine.enum(['teacher', 'student'])
   })
 )
+
+export const updateUserValidator = vine.compile(
+  vine.object({
+    fullName: vine.string().trim().optional(),
+    email: vine.string().email().unique({ table: 'users', column: 'email' }).optional(),
+    password: vine.string().optional(),
+    birthDate: vine.date().optional()
+  })
+)

@@ -20,7 +20,9 @@ router.group(() => {
 }).prefix('api')
 
 router.group(() => {
- 
+  router.get('users/me', [UsersController, 'show'])
+  router.put('users/me', [UsersController, 'update'])
+  router.delete('users/me', [UsersController, 'delete'])
 }).use(middleware.auth({
   guards: ['api']
 })).prefix('api')
