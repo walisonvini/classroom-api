@@ -6,6 +6,7 @@ export default class UserService {
     const user = await User.create({
       ...payload,
       birthDate: DateTime.fromJSDate(payload.birthDate),
+      registration: await this.generateRegistration(payload.role),
     })
 
     return user
@@ -31,5 +32,21 @@ export default class UserService {
     const user = await this.findById(id)
 
     return await user.delete()
+  }
+
+  private async generateRegistration(role: string): Promise<string> {
+    const currentYear = new Date().getFullYear()
+    const randomNumbers = Math.floor(100000 + Math.random() * 900000)
+    const rolePrefix = role.charAt(0).toUpperCase()
+
+    const registration = `${currentYear}${randomNumbers}${rolePrefix}`
+
+    const user = await User.findBy('registration', registration)
+
+    if (user) {
+      return this.generateRegistration(role)
+    }
+    
+    return registration
   }
 }
