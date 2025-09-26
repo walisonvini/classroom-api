@@ -12,7 +12,7 @@ export default class RoomsController {
  
         const room = await this.roomService.create(payload, ctx.auth.user as User)
 
-        return ApiResponse.success(ctx, { room }, 'Room created successfully')
+        return ApiResponse.success(ctx, { room }, 'Room created successfully', 201)
     }
 
     async show(ctx: HttpContext) {
@@ -39,6 +39,12 @@ export default class RoomsController {
     
         await this.roomService.addStudent(ctx.params.id, ctx.params.userId, ctx.auth.user as User)
 
-        return ApiResponse.success(ctx, {}, 'Student added to room successfully')
+        return ApiResponse.success(ctx, {}, 'Student added to room successfully', 201)
+    }
+
+    async removeStudent(ctx: HttpContext) {
+        await this.roomService.removeStudent(ctx.params.id, ctx.params.userId, ctx.auth.user as User)
+
+        return ApiResponse.success(ctx, {}, 'Student removed from room successfully')
     }
 }

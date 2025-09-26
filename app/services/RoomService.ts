@@ -49,12 +49,29 @@ export default class RoomService {
 
     await this.userService.verifyIsStudent(student)
     await this.validateRoomAvailability(room)
-    await this.validateStudentNotInRoom(room, student.id)
+
+    if (await this.validateStudentInRoom(room, student.id)) {
+      throw new Error('Student already in room')
+    }
+
     await this.validateRoomCapacity(room)
 
     return await room.related('roomStudents').create({
       studentId: student.id,
     });
+  }
+
+  async removeStudent(roomId: number, userId: number, authUser: User) {
+    const room = await this.findById(roomId, authUser)
+    const student = await this.userService.findById(userId)
+
+    await this.userService.verifyIsStudent(student)
+
+    if (!await this.validateStudentInRoom(room, student.id)) {
+      throw new Error('Student not in room')
+    }
+
+    return await room.related('roomStudents').query().where('student_id', student.id).delete()
   }
 
   private async validateRoomAvailability(room: Room) {
@@ -76,10 +93,9 @@ export default class RoomService {
     }
   }
 
-  private async validateStudentNotInRoom(room: Room, studentId: number) {
+  private async validateStudentInRoom(room: Room, studentId: number) {
     const roomStudent = await room.related('roomStudents').query().where('student_id', studentId).first()
-    if (roomStudent) {
-      throw new Error('Student already in room')
-    }
+    
+    return roomStudent
   }
 }

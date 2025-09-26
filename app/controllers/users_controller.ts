@@ -11,7 +11,7 @@ export default class UsersController {
 
     const user = await this.userService.create(payload)
 
-    return ApiResponse.success(ctx, { user }, `${user.role} created successfully`)
+    return ApiResponse.success(ctx, { user }, `${user.role} created successfully`, 201)
   }
 
   public async show(ctx: HttpContext) {
