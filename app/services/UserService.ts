@@ -42,6 +42,14 @@ export default class UserService {
     return true
   }
 
+  public async verifyIsStudent(user: User) {
+    if (user.role !== 'student') {
+      throw new Error('User is not a student')
+    }
+
+    return true
+  }
+
   private async generateRegistration(role: string): Promise<string> {
     const currentYear = new Date().getFullYear()
     const randomNumbers = Math.floor(100000 + Math.random() * 900000)

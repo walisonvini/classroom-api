@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import type { HasOne } from '@adonisjs/lucid/types/relations'
-import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
+import type { HasOne, HasMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, hasOne, hasMany } from '@adonisjs/lucid/orm'
 import User from '#models/user'
+import RoomStudent from '#models/room_student'
 
 export default class Room extends BaseModel {
   @column({ isPrimary: true })
@@ -27,4 +28,9 @@ export default class Room extends BaseModel {
 
   @hasOne(() => User)
   declare teacher: HasOne<typeof User>
+
+  @hasMany(() => RoomStudent, {
+    foreignKey: 'roomId'
+  })
+  declare roomStudents: HasMany<typeof RoomStudent>
 }

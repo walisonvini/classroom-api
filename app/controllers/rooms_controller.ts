@@ -34,4 +34,11 @@ export default class RoomsController {
 
         return ApiResponse.success(ctx, null, 'Room deleted successfully')
     }
+
+    async addStudent(ctx: HttpContext) {
+    
+        await this.roomService.addStudent(ctx.params.id, ctx.params.userId, ctx.auth.user as User)
+
+        return ApiResponse.success(ctx, {}, 'Student added to room successfully')
+    }
 }

@@ -6,6 +6,7 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Room from '#models/room'
+import RoomStudent from '#models/room_student'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -46,4 +47,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
     foreignKey: 'teacherId'
   })
   declare rooms: HasMany<typeof Room>
+
+  @hasMany(() => RoomStudent, {
+    foreignKey: 'studentId'
+  })
+  declare roomStudents: HasMany<typeof RoomStudent>
 }
