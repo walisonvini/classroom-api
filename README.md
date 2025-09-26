@@ -72,6 +72,9 @@ node ace generate:key
 
 3. Configurar seu arquivo .env
 ```bash
+# Host onde a aplicação será executada
+HOST=localhost
+
 # Configure as variáveis de ambiente para MySQL
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
