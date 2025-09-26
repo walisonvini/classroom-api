@@ -34,6 +34,14 @@ export default class UserService {
     return await user.delete()
   }
 
+  public async verifyIsTeacher(user: User) {
+    if (user.role !== 'teacher') {
+      throw new Error('User is not a teacher')
+    }
+
+    return true
+  }
+
   private async generateRegistration(role: string): Promise<string> {
     const currentYear = new Date().getFullYear()
     const randomNumbers = Math.floor(100000 + Math.random() * 900000)
