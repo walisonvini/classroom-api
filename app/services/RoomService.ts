@@ -74,6 +74,28 @@ export default class RoomService {
     return await room.related('roomStudents').query().where('student_id', student.id).delete()
   }
 
+  async getStudents(roomId: number, authUser: User) {
+    const room = await this.findById(roomId, authUser)
+
+    const roomStudents = await room.related('roomStudents').query()
+      .preload('student', (query) => {
+        query.select('id', 'full_name', 'email', 'registration', 'role')
+      })
+
+    return roomStudents.map(roomStudent => roomStudent.student)
+  }
+
+  async getStudentRooms(authUser: User) {
+    await this.userService.verifyIsStudent(authUser)
+
+    const roomStudents = await authUser.related('roomStudents').query()
+      .preload('room', (query) => {
+        query.select('id', 'room_number', 'capacity', 'available')
+      })
+
+    return roomStudents.map(roomStudent => roomStudent.room)
+  }
+
   private async validateRoomAvailability(room: Room) {
     if (!room.available) {
       throw new Error('Room is not available')

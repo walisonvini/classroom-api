@@ -47,4 +47,16 @@ export default class RoomsController {
 
         return ApiResponse.success(ctx, {}, 'Student removed from room successfully')
     }
+
+    async getStudents(ctx: HttpContext) {
+        const students = await this.roomService.getStudents(ctx.params.id, ctx.auth.user as User)
+
+        return ApiResponse.success(ctx, { students }, 'Students retrieved successfully')
+    }
+
+    async getStudentRooms(ctx: HttpContext) {
+        const rooms = await this.roomService.getStudentRooms(ctx.auth.user as User)
+
+        return ApiResponse.success(ctx, { rooms }, 'Rooms retrieved successfully')
+    }
 }

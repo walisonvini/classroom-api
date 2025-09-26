@@ -32,4 +32,6 @@ router.group(() => {
 
   router.post('rooms/:id/students/:userId', [RoomsController, 'addStudent'])
   router.delete('rooms/:id/students/:userId', [RoomsController, 'removeStudent'])
+  router.get('rooms/:id/students', [RoomsController, 'getStudents'])
+  router.get('students/me/rooms', [RoomsController, 'getStudentRooms'])
 }).use(middleware.auth({ guards: ['api'] })).prefix('api')

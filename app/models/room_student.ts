@@ -26,7 +26,7 @@ export default class RoomStudent extends BaseModel {
   declare room: BelongsTo<typeof Room>
 
   @belongsTo(() => User, {
-    foreignKey: 'student_id',
+    foreignKey: 'studentId',
   })
   declare student: BelongsTo<typeof User>
 }
