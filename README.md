@@ -37,17 +37,22 @@ docker compose up -d
 docker exec -it classroom-api sh
 ```
 
-5. Execute as migrações
-```bash
-node ace migration:run
-```
-
-6. Gerar a chave da aplicação
+5. Gerar a chave da aplicação
 ```bash
 node ace generate:key
 ```
 
-7. Acesse a aplicação
+6. Execute as migrações
+```bash
+node ace migration:run
+```
+
+7. Execute as seeders
+```bash
+node ace db:seed
+```
+
+8. Acesse a aplicação
 ```bash
 http://localhost:3333
 ```
@@ -81,12 +86,17 @@ DB_DATABASE=classroom_api
 node ace migration:run
 ```
 
-5. Iniciar a aplicação
+5. Execute as seeders
+```bash
+node ace db:seed
+```
+
+6. Iniciar a aplicação
 ```bash
 npm run dev
 ```
 
-6. Acesse a aplicação
+7. Acesse a aplicação
 ```bash
 http://localhost:3333
 ```
