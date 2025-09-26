@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
-import type { HasOne, HasMany } from '@adonisjs/lucid/types/relations'
-import { BaseModel, column, hasOne, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
 import User from '#models/user'
 import RoomStudent from '#models/room_student'
 
@@ -26,8 +26,10 @@ export default class Room extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @hasOne(() => User)
-  declare teacher: HasOne<typeof User>
+  @belongsTo(() => User, {
+    foreignKey: 'teacherId'
+  })
+  declare teacher: BelongsTo<typeof User>
 
   @hasMany(() => RoomStudent, {
     foreignKey: 'roomId'

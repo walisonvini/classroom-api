@@ -90,10 +90,25 @@ export default class RoomService {
 
     const roomStudents = await authUser.related('roomStudents').query()
       .preload('room', (query) => {
-        query.select('id', 'room_number', 'capacity', 'available')
+        query.preload('teacher', (teacherQuery) => {
+          teacherQuery.select('id', 'full_name')
+        })
       })
 
-    return roomStudents.map(roomStudent => roomStudent.room)
+    const rooms = roomStudents.map(roomStudent => ({
+      roomNumber: roomStudent.room.roomNumber,
+      teacher: roomStudent.room.teacher.fullName
+    }))
+
+    return {
+      student: {
+        id: authUser.id,
+        fullName: authUser.fullName,
+        email: authUser.email,
+        registration: authUser.registration
+      },
+      rooms
+    }
   }
 
   private async validateRoomAvailability(room: Room) {

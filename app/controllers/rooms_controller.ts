@@ -55,8 +55,8 @@ export default class RoomsController {
     }
 
     async getStudentRooms(ctx: HttpContext) {
-        const rooms = await this.roomService.getStudentRooms(ctx.auth.user as User)
+        const data = await this.roomService.getStudentRooms(ctx.auth.user as User)
 
-        return ApiResponse.success(ctx, { rooms }, 'Rooms retrieved successfully')
+        return ApiResponse.success(ctx, data, 'Rooms retrieved successfully')
     }
 }
